@@ -17,7 +17,16 @@ class key_xor_exploit():
         if pr: self.printx(pt, key)
         return (pt, key)
 
-    def key_lengths(self, cp):
+    def IC_key_length(self, cp):
+        from collections import Counter
+        IC = lambda text:sum([j*(j-1) for i,j in Counter(text).items()])/(len(text)*len(text[:-1]))
+        sizes = {}
+        for size in range(2,41):
+            chunks = [b"".join([bytes([cp[i*size+j]]) for i in range(len(cp)//size)]) for j in range(size)]
+            sizes[size] = sum([IC(i) for i in chunks])/len(chunks)
+        return sorted(key_lengths.items(), key=lambda x: x[1], reverse=True)[0][0]
+
+    def key_length(self, cp):
         average_distances = {}
         xlen = lambda x: len(x) - len(x)%2
         ham_dist = lambda str1, str2: sum([int(bit) for b1, b2 in zip(str1, str2) for bit in bin(b1 ^ b2)[2:]])
@@ -28,7 +37,7 @@ class key_xor_exploit():
         return sorted(average_distances.items(), key=lambda x: x[1])[0][0]
 
     def repeating_xor(self, cp, pr=False):
-        key_length, key = self.key_lengths(cp), b''
+        key_length, key = self.IC_key_length(cp), b''
         for i in range(key_length):
             block = b''.join(bytes([cp[j]]) for j in range(i, len(cp), key_length)) 
             key += self.single_xor(block)[1]
@@ -39,7 +48,7 @@ class key_xor_exploit():
 def main():
     from msg import msg
     enc = key_xor_exploit()
-    cip = enc.xor(msg,b'hey there here is your lag')
+    cip = enc.xor(msg,b'heya')
     pt, key = enc.repeating_xor(cip,True)
     cip = enc.xor(msg,b'a')
     pt, key = enc.single_xor(cip,True)
