@@ -89,9 +89,10 @@ class point(ecurve):
 		return (self.x,self.y)==(other.x,-other.y)
 
 def main():
-	e = ecurve(497,1768)
-	p = e.new_pt(28,194)
-	v = 3*p
+	e = ecurve(3,5)
+	p = e.new_pt(1,3)
+	q = e.new_pt(4,9)
+	v = q*4
 	print(v.x,v.y)
 		
 if __name__ == '__main__':
