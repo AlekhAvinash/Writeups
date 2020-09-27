@@ -20,7 +20,9 @@ class key_xor_exploit():
     def IC_key_length(self, cp):
         from collections import Counter
         IC = lambda text:sum([j*(j-1) for i,j in Counter(text).items()])/(len(text)*len(text[:-1]))
-        sizes = {}
+        sizes,uplim = {},41
+        if(len(cp)//2<uplim):
+            uplim=len(cp)//2-2
         for size in range(2,41):
             chunks = [b"".join([bytes([cp[i*size+j]]) for i in range(len(cp)//size)]) for j in range(size)]
             sizes[size] = sum([IC(i) for i in chunks])/len(chunks)
