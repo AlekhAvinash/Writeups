@@ -7,9 +7,7 @@ RSA security is often excecuted without the knowledge of the user. These automat
 Digital Signatures usually works in three steps:-
 1. Alice sends a message M (M < N) to Bob.
 2. Bob checks if the message falls within his defencive rules and signs the message (C = M&#x1D48; % N) and sends it back to Alice.
-<p align="center">
-  <img src="Img/enc.png">
-</p>
+<img src="https://bit.ly/3nq91T3" align="center" border="0" alt="C=M^e mod N" width="114" height="17" />
 3. Alice decrypts the message (M = C&#x1D49; % N) and checks if the returned message is the same as the one she sent.
 <p align="center">
   <img src="Img/dec.png">
