@@ -14,7 +14,7 @@ class key_xor_exploit():
             potential_messages[key_value] = get_english_score(pt)
         key = bytes([sorted(potential_messages.items(), key=lambda x: x[1], reverse=True)[0][0]])
         pt = self.xor(cp, key)
-        if pr: self.printx(pt, key)
+        if pr: self.printx(key, pt)
         return (pt, key)
 
     def IC_key_length(self, cp):
@@ -26,7 +26,7 @@ class key_xor_exploit():
         for size in range(2,41):
             chunks = [b"".join([bytes([cp[i*size+j]]) for i in range(len(cp)//size)]) for j in range(size)]
             sizes[size] = sum([IC(i) for i in chunks])/len(chunks)
-        return sorted(key_lengths.items(), key=lambda x: x[1], reverse=True)[0][0]
+        return sorted(sizes.items(), key=lambda x: x[1], reverse=True)[0][0]
 
     def key_length(self, cp):
         average_distances = {}
@@ -44,7 +44,7 @@ class key_xor_exploit():
             block = b''.join(bytes([cp[j]]) for j in range(i, len(cp), key_length)) 
             key += self.single_xor(block)[1]
         pt = self.xor(cp, key)
-        if pr: self.printx(pt, key)
+        if pr: self.printx(key, pt)
         return (pt, key)
 
 def main():
