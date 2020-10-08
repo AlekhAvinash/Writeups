@@ -8,7 +8,7 @@ Digital Signatures usually works in three steps:-
 1. Alice sends a message M (M < N) to Bob.
 2. Bob checks if the message falls within his defencive rules and signs the message (C = M&#x1D48; % N) and sends it back to Alice.
 
-![](/Img/enc.png)
+![](RSA/Img/enc.png)
 3. Alice decrypts the message (M = C&#x1D49; % N) and checks if the returned message is the same as the one she sent.
 
 ![](/Img/dec.png)
