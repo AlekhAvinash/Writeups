@@ -2,7 +2,7 @@
 
 ## Introduction
 RSA security is often excecuted without the knowledge of the user. These automated process are relies on an application of RSA called Digital Signatures. Basically when Alice encrypts a msg with Bob's public key, only Bob can decrypt the message. This proof of identity is called Digital Signatures. Often Bob sets up defences so that he doesn't sign some dangerous messages sent by Marvin ([Someone pretending to be Alice](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)). But Blinding Attack utilises another property of RSA to bypass these defences.
-<p><a href="https://commons.wikimedia.org/wiki/File:Man_in_the_middle_attack.svg#/media/File:Man_in_the_middle_attack.svg"><img height="100" width="300" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Man_in_the_middle_attack.svg/1200px-Man_in_the_middle_attack.svg.png" alt="Man in the middle attack.svg"></a><br>
+<p><a href="https://commons.wikimedia.org/wiki/File:Man_in_the_middle_attack.svg#/media/File:Man_in_the_middle_attack.svg"><img height="200" width="300" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Man_in_the_middle_attack.svg/1200px-Man_in_the_middle_attack.svg.png" alt="Man in the middle attack.svg"></a><br>
 
 ## Digital Signatures
 Digital Signatures usually works in three steps:-
