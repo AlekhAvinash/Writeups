@@ -11,6 +11,7 @@ Digital Signatures usually works in three steps:-
 ![](Img/enc.png)
 
 3. Alice decrypts the message (M = C&#x1D49; % N) and checks if the returned message is the same as the one she sent.
+
 ![](Img/dec.png)
 
 ## Blinding Attack
