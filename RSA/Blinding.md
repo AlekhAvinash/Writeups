@@ -11,23 +11,27 @@ Digital Signatures usually works in three steps:-
   <img src="Img/enc.png">
 </p>
 3. Alice decrypts the message (M = C&#x1D49; % N) and checks if the returned message is the same as the one she sent.
-
-![](Img/dec.png)
+<p align="center">
+  <img src="Img/dec.png">
+</p>
 
 ## Blinding Attack
 When Marvin tries to send a message similar to Alices, Bob notices that the message has some dangerous messages in it and refuses to sign the message. But RSA doesn't have any checking mechanisms inherently, these constrains can be bypassed easily. Sometimes just multipling the dangerous message with a prime number would suffice. So Marvin can attempt a Blinding Attack by using the following steps:-
 1. Preapre a buffer r&#x1D49; (r = small integer and e = public key) and send messge multiplied with buffer.
     * These buffers are often referred to as Blinding Factors
-
-![]((Img/blinding.png)
+<p align="center">
+  <img src="Img/blinding.png">
+</p>
 
 2. Since Bob only checks for certain strings or characters, Marvin's message will be approved because from Bob's perspective, Marvin is sending a random message that don't contain any unwanted text. And bob returns the signed message.
-
-![]((Img/blinding-sign.png)
+<p align="center">
+  <img src="Img/blinding-sign.png">
+</p>
 
 3. Now all Marvin has to do is decrypt the message and remove the blinding factor.
-
-![]((Img/blinding-sign.png)
+<p align="center">
+  <img src="Img/unblinding.png">
+</p>
 
 Here is a small implementation [blinding.py](https://github.com/AlekhAvinash/Writeups/blob/master/RSA/blinding.py).
 ## Reference: 
