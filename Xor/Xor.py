@@ -1,8 +1,9 @@
 #!/usr/bin/python3
+from os import system
 
 class key_xor_exploit():
     def __init__(self):
-        self.printx = lambda key, msg: print("\nKey: {}\n\nMessage: {}\n".format(key, msg))
+        self.printx = lambda key, msg: print("\n[Key] {}\n\n[Message] {}\n".format(key, msg))
         self.xor = lambda msg, key: b''.join([bytes([byte ^ key[i%len(key)]]) for i,byte in enumerate(msg)])
 
     def single_xor(self, cp, pr=False):
@@ -47,13 +48,42 @@ class key_xor_exploit():
         if pr: self.printx(key, pt)
         return (pt, key)
 
-def main():
+    def menu(self):
+        system("clear")
+        print("#"*32+"\n\n")
+        print("\t> 1: Repeated")
+        print("\t> 2: Single")
+        print("\t> 3: Sample")
+        print("\t> 4: Exit")
+        print("\n\n"+"#"*32)
+        try:
+            return int(input("\n\n> "))
+        except:
+            self.menu()
+
+
+def main():    
     from msg import msg
     enc = key_xor_exploit()
-    cip = enc.xor(msg,b'heya')
-    pt, key = enc.repeating_xor(cip,True)
-    cip = enc.xor(msg,b'a')
-    pt, key = enc.single_xor(cip,True)
+    while(True):
+        inp = enc.menu()
+        if(inp==1):
+            cip = bytes.fromhex(input("[Ciphertext] "))
+            pt, key = enc.repeating_xor(cip,True)
+        elif(inp==2):
+            cip = bytes.fromhex(input("Enter Ciphertext:\n> "))
+            pt, key = enc.single_xor(cip,True)
+        elif(inp==3):
+            cip = enc.xor(msg,b'heya')
+            pt, key = enc.repeating_xor(cip,True)
+            cip = enc.xor(msg,b'a')
+            pt, key = enc.single_xor(cip,True)
+        elif(inp==4):
+            system("clear")
+            break
+        else:
+            print("Use valid input")
+        input("Enter to continue..")
 
 if __name__ == '__main__':
     main()
