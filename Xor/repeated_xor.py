@@ -5,7 +5,7 @@ def xor(pt, key):
 
 def main():
 	pt = input("Enter String: ").encode('utf-8')
-	key = input("Enter String: ").encode('utf-8')
+	key = input("Enter Key: ").encode('utf-8')
 	
 	print("Xor ed string: ",xor(pt,key))
 
