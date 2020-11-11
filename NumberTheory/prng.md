@@ -20,5 +20,5 @@ Although random number generators are not perfect, they have come very close to 
 - https://en.wikipedia.org/wiki/Pseudorandom_number_generator
 
 Implimentation of some of the more popular PRNGs
-- [LSFR.py]()
-- [ACORN.py]()
+- [LSFR.py](https://github.com/AlekhAvinash/Writeups/blob/master/NumberTheory/lfsr.py)
+- [ACORN.py](https://github.com/AlekhAvinash/Writeups/blob/master/NumberTheory/ACORN.py)
