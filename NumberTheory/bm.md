@@ -42,4 +42,5 @@ Althought the mathematics behind the BM algorithm is quite interesting, the scop
 
 ## Resources
 - https://en.wikipedia.org/wiki/Berlekamp%E2%80%93Massey_algorithm
-The python implementation of the demo can be found [here]()
+
+The python implementation of the demo can be found [here](https://github.com/AlekhAvinash/Writeups/blob/master/NumberTheory/lfsr.py) and the exploit [here](https://github.com/AlekhAvinash/Writeups/blob/master/NumberTheory/berlekamp_massey.py)
