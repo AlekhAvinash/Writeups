@@ -1,44 +1,40 @@
 #!/usr/bin/python3
-import numpy as np
-from copy import copy
 from lfsr import LFSR
 
-def berlekamp_massey_algorithm(block_data):
-	n = len(block_data)
-	c = np.zeros(n)
-	b = np.zeros(n)
-	c[0], b[0] = 1, 1
-	l, m, i = 0, -1, 0
-	int_data = [int(el) for el in block_data]
-	while i < n:
-		v = int_data[(i - l):i]
-		v = v[::-1]
-		cc = c[1:l + 1]
-		d = (int_data[i] + np.dot(v, cc)) % 2
-		if d == 1:
-			temp = copy(c)
-			p = np.zeros(n)
-			for j in range(0, l):
-				if b[j] == 1:
-					p[j + i - m] = 1
-			c = (c + p) % 2
-			if l <= 0.5 * i:
-				l = i + 1 - l
-				m = i
-				b = temp
-		i += 1
-	return l,c[l:0:-1]
+def Berlekamp_Massey_algorithm(sequence):
+	N = len(sequence)
+	s = [int(i) for i in sequence]
+	for k in range(N):
+		if s[k] == 1:
+			break
+	f = set([k + 1, 0])
+	l = k + 1
+	g = set([0])
+	a = k
+	b = 0
+	for n in range(k + 1, N):
+		d = 0
+		for ele in f:
+			d ^= s[ele + n - l]
+		if d == 0:
+			b += 1
+		else:
+			if 2 * l > n:
+				f ^= set([a - b + ele for ele in g])
+				b += 1
+			else:
+				temp = f.copy()
+				f = set([b - a + ele for ele in f]) ^ g
+				l = n + 1 - l
+				g = temp
+				a = b
+				b = n - l + 1
+	return f, l
 
 def main():
-	inp = "1001110000001101010101100010000110011011010111101010110100110011100101111010000001001001101000110010000000110111100110011101011111011111011100111100100010001001101010100010010001001001110100110001110101101011111111011011000100011000110100010100000001111011001110000001101010101100010000110011011010111101010110100110011100101111010000001001001101000110010000000110111100110011101011111011111011100111100100010001001101010100010010001001001110100110001110101101011111111011011000100011000110100010100000001111011001110000001101010101100010000110011011010111101010110100110011100101111010000001001001101000110010000000110111100110011101011111011111011100111100100010001001101010100010010001001001110100110001110101101011111111011011000100011000110100010100000001111011001110000001101010101100010000110011011010111101010110100110011100101111010000001001001101000110010000000110111100110011101011111011111011100111100100010001001101010100010010001001001110100110001110101101011111111011011000100011000110"
-	
-	ret = berlekamp_massey_algorithm(inp)
-	
-	seed = int(inp[ret[0]-1::-1],2)
-	loc = [i+1 for i,j in enumerate(ret[1]) if(j)]
-	
-	clss = LFSR(seed,loc)
-	print(clss.output(1100)[1000:])
+	inp = LFSR(12345,[1,6,8]).output(50)
+	loc, len_ = Berlekamp_Massey_algorithm(inp)
+	print([i+1 for i in list(loc)[:-1]], len_)
 
 if __name__ == '__main__':
 	main()
