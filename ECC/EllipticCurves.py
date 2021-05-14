@@ -1,5 +1,20 @@
 #!/usr/bin/python3
 from Crypto.Util.number import inverse
+from random import randrange
+from math import sqrt
+
+def cipo(n, p):
+	a = 2
+	while True:
+		a += 1
+		vl = abs(a**2-n)
+		if int(sqrt(vl)**2) == vl:
+			try:
+				x = ((a+sqrt(vl))**((p+1)//2))%(p**2)
+				if int((x**2)%p) == n:
+					return int(x)
+			except:
+				return None
 
 class ecurve:
 	def __init__(self, a, b, pr=None):
@@ -22,9 +37,20 @@ class ecurve:
 	def new_pt(self, x=None, y=None):
 		return point(self.a, self.b, self.pr, x, y)
 
+	def gen_pt(self, b=None):
+		hi = self.pr if self.pr!=None else 1<<b
+		while True:
+			xi = randrange(3,hi)
+			try:
+				yi = cipo((xi**3 + self.a*xi + self.b)%self.pr, self.pr)
+				assert yi!=None
+				return self.new_pt(xi, yi)
+			except:
+				continue
+
 	def __str__(self):
 		return 'y^2 = x^3 + %Gx + %G' % (self.a, self.b)
-		
+
 class point(ecurve):
 	def __init__(self, a, b, pr, x, y):
 		super(point,self).__init__(a, b, pr)
@@ -34,6 +60,17 @@ class point(ecurve):
 		if(x or y):
 			point.testPoint(self)
 
+	def is_infinite(self):
+		return self.x==None or self.y==None
+
+	def order(self):
+		Q = self.new_pt(self.x, self.y)
+		ctr = 1
+		while not Q.is_infinite():
+			Q = self+Q
+			ctr+=1
+		return ctr
+
 	def testPoint(self):
 		try:
 			if(self.pr):
@@ -41,8 +78,8 @@ class point(ecurve):
 			else:
 				assert round(self.val(self.x,self.y)) == 0
 		except:
-			raise Exception("Invalid input for x, y.")
-	
+			self.x, self.y = None, None
+
 	def __add__(self, other):
 		o = ecurve.new_pt(self)
 		if(o == self):
@@ -50,7 +87,7 @@ class point(ecurve):
 		elif(o == other):
 			return self
 		elif self==other:
-			if(self.pr):				
+			if(self.pr):
 				if (self.y+other.y)%self.pr==0:
 					return o
 				lmd = ((3*self.x**2+self.a)*inverse(2*self.y,self.pr))%self.pr
@@ -82,18 +119,11 @@ class point(ecurve):
 	def __rmul__(self,n):
 		return self.__mul__(n)
 
-	def __eq__(self, other):	
+	def __eq__(self, other):
 		return (self.x,self.y)==(other.x,other.y)
 
 	def __ne__(self, other):
 		return (self.x,self.y)==(other.x,-other.y)
 
-def main():
-	e = ecurve(3,5)
-	p = e.new_pt(1,3)
-	q = e.new_pt(4,9)
-	v = q*4
-	print(v.x,v.y)
-		
-if __name__ == '__main__':
-	main()
+	def __str__(self):
+		return f'({self.x}, {self.y})'
